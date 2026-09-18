@@ -1,0 +1,31 @@
+services:
+  pihole:
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: Europe/Berlin
+      FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
+      FTLCONF_dns_listeningMode: all
+      FTLCONF_dns_upstreams: 9.9.9.9;149.112.112.112
+      FTLCONF_misc_dnsmasq_lines: address=/home.example.com/192.168.5.148;local=/home.example.com/
+    volumes:
+      - ./pihole:/etc/pihole
+    restart: unless-stopped
+
+  caddy:
+    build: ./caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      CF_API_TOKEN: ${CF_API_TOKEN}
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
