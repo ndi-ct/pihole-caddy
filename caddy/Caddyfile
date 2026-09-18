@@ -1,0 +1,25 @@
+{
+	email cttest@example.com
+}
+
+*.home.example.com {
+	tls {
+		dns cloudflare {env.CF_API_TOKEN}
+		resolvers 9.9.9.9 1.1.1.1
+	}
+
+	@pihole host pihole.home.example.com
+	handle @pihole {
+		redir / /admin/
+		reverse_proxy pihole:80
+	}
+
+	@cttest host cttest.home.example.com
+	handle @cttest {
+		reverse_proxy 192.168.1.150:80
+	}
+
+	handle {
+		abort
+	}
+}
