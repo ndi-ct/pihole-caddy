@@ -9,7 +9,7 @@ services:
       FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
       FTLCONF_dns_listeningMode: all
       FTLCONF_dns_upstreams: 9.9.9.9;149.112.112.112
-      FTLCONF_misc_dnsmasq_lines: address=/home.example.com/192.168.5.148;local=/home.example.com/
+      FTLCONF_misc_dnsmasq_lines: address=/home.example.com/192.168.1.160;local=/home.example.com/
     volumes:
       - ./pihole:/etc/pihole
     restart: unless-stopped
